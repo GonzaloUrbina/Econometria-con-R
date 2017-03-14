@@ -59,6 +59,61 @@ a = funcion(data = x, modelo = 'tipo1')
 
 En la que el '=' significa "asignar valores a un objeto" y "asignar atributos a los argumentos de una función". Esta doble función (que normalmente R maneja bien y solo en raras ocasiones genera problemas reales), es considerada una mala práctica en programación en general y no solo en R: se deben favorecer métodos que no tengan potencial ambiguedad (recordar que la Ley de Murphy estará en plena operación mientras ustedes escriban código y a más complicado el código peor será: si puede salir mal, saldrá mal).
 
+Antes de hablar de los diferentes tipos de objetos, es es importante conocer algunos de los tipos de información que acepta R:
+
+-   numeric / double - *Números Reales* con [precisión de 53 bits](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) o unos 16 decimales
+-   integer - *Números Enteros*
+-   character - *Texto*: pueden ser valores númericos tratados como texto
+-   factor - *Categorías*: pueden estar ordenadas
+-   logical - *Verdadero/Falso*
+
+``` r
+# Creamos un objeto con un número, automáticamente R asume que será una variable contínua
+a <- 2
+
+# Este comando nos permite ver la estructura de un objeto
+class(a)
+```
+
+    ## [1] "numeric"
+
+``` r
+# El comando genérico is.tipo(objeto) verifica rápidamente si un objeto es de cierto tipo
+is.numeric(a)
+```
+
+    ## [1] TRUE
+
+``` r
+is.integer(a)
+```
+
+    ## [1] FALSE
+
+``` r
+# Podemos crear una nueva variable o reemplazar la variable anterior
+b <- as.integer(a)
+
+class(c(a,b))
+```
+
+    ## [1] "numeric"
+
+``` r
+# Si no se usan comillas R buscaría un objeto llamado 'texto' y al no encontrarlo daría un error
+c <- "texto"
+
+c
+```
+
+    ## [1] "texto"
+
+``` r
+class(c)
+```
+
+    ## [1] "character"
+
 Voy a introducir cuatro tipos de objetos que emplearemos con frecuencia. Luego introduciré los diferentes tipos de data que puede manejar R:
 
 ### Vector
