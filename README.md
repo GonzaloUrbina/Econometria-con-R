@@ -16,4 +16,8 @@ Hay una versión de http://es.stackoverflow.com/ en español donde pueden pedir 
 
 # Índice
 
+<<<<<<< HEAD
 [Programas](Capitulos/Programas.md)
+=======
+[Programas](../Capitulos/Programas.md)
+>>>>>>> e091ec36bf403831698bacf22ac2912550560beb
