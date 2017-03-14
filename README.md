@@ -1,4 +1,4 @@
-# Introducción a R
+# Econometría con R
 
 Este repositorio contiene tutoriales sobre el uso de R y explica sus principios básicos.
 
@@ -13,3 +13,6 @@ La mayoría de ayuda y documentación está en inglés, por lo que es inevitable
 Escribir *help()* con un tema o una función dentro de los paréntesis en la consola abrirá páginas de documentación.
 
 Hay una versión de http://es.stackoverflow.com/ en español donde pueden pedir ayuda.
+
+# Índice
+
