@@ -1,0 +1,42 @@
+---
+title: "R como Calculadora"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Cálculo de escalares
+
+En su nivel más básico R es una calculadora. Estos son algunos comandos básicos - la respuesta de R está luego de ## [1]. 
+
+En todos los casos de esta sección trabajamos con valores escalares. R los trata como vectores de una sola dimensión (de ahí el [1]: representa la posición en el vector).
+
+Estas son las funciones mínimas que deberías conocer, te sorprendería saber qué tipo de funciones ya están automatizadas: explora e investiga.
+
+
+```{r calculadora}
+
+2+3-4*5/6
+2^2
+16 %/% 3 # Resulta el entero de la división
+8 %% 5     # Resulta el residuo de la división
+
+```
+
+
+A diferencia de Excel donde se requiere una señal para indicarle al programa que se requiere un cálculo, R siempre está disponible para estimaciones y se puede escribir directamente la ecuación a calcular. 
+
+Algunos ejemplos de funciones:
+
+
+```{r pressure, echo=TRUE}
+
+sqrt(9)
+log10(100)
+log2(8)
+exp(42)
+abs(-7)
+
+```
