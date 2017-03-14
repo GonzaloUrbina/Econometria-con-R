@@ -8,19 +8,21 @@ Hay diferentes formas de hacer programación. Entre las muchas diferencias entre
 
 Algunos programas, como R, Python, Java o C++, manejan su data creando múltiples clases de **objetos** en los que se almacena de diferentes clases de información de acuerdo a ciertas reglas (no solo data, en R se pueden guardar funciones, ecuaciones, opciones y, basicamente, lo que se te ocurra). Luego la programación realiza operaciones sobre los objetos. Todo en R se puede entender como un **objeto** que consiste de *nombre* y *atributos* con una serie de reglas de *conducta*.
 
-### Crear un Objeto
+### Crear (asignar valor a) un Objeto
 
 Para asignar datos a un nombre y crear un objeto, usaremos la función *assign()*, para luego "llamar" al objeto escribiendo su nombre en la consola:
 
 ``` r
+# Creación del objeto
 assign("x", 1)
 
+# Llamado
 x
 ```
 
     ## [1] 1
 
-Para conocer el detalle de la sintaxis de la función *assign()*, escribir en la consola *?assign*. En general obedece el siguiente formato: *assign("nombre", valores)* - nótese que el nombre se escribe entre comillas. Sin embargo si queremos asignar varios valores a x tendremos que *combinarlos* con la función *c()*, o si fueran correlativos usar la operación de generación de secuencias (*a:b* genera una secuencia de 'a' hasta 'b'):
+Para conocer el detalle de la sintaxis de la función *assign()*, escribir en la consola *?assign*. En general obedece el siguiente formato: *assign("nombre", valores)* - nótese que el nombre se escribe entre comillas. Si queremos asignar **varios** valores a x tendremos que *combinarlos* con la función *c()*, o si fueran correlativos usar la operación de generación de secuencias (*a:b* genera una secuencia de 'a' hasta 'b'):
 
 ``` r
 assign("x", c(1,2,3,4,5,6,7,8,9,10))
@@ -39,7 +41,7 @@ y
     ##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
     ## [24] 24 25 26 27 28 29 30
 
-Como escribir la función *assign* y sus paréntesis cada vez es pesado, existe un atajo gramatical:
+Como escribir la función *assign* y sus paréntesis todas las veces puede ser mucho trabajo, existe un atajo gramatical:
 
 "nombre del objeto" &lt;- "valores"
 
@@ -53,19 +55,19 @@ w
 
 R también entiende la función de asignar usando '-&gt;' (el nombre va a la derecha en este caso) o '=' que sería un símbolo más natural para la mayoría de personas. Sin embargo el '=' está desaconsejado seriamente (mis alumnos perderan puntos por mala gramática: si los profesores de lenguaje hablado pueden quitar puntos por ello, ¿por qué no podría hacerlo yo en un lenguaje de programación?).
 
-La razón por la que evitamos '=' es simple: evitar ambigüedad (por menor que sea) a como de lugar: el término '=' se emplea en muchas funciones para definir argumentos en la función. Por ejemplo se podría tener este escenario:
+La razón por la que evitamos '=' es simple: evitar ambigüedad (por menor que sea) a como de lugar. El término '=' se emplea en muchas funciones para definir argumentos en la función. Por ejemplo se podría tener este escenario:
 
 a = funcion(data = x, modelo = 'tipo1')
 
 En la que el '=' significa "asignar valores a un objeto" y "asignar atributos a los argumentos de una función". Esta doble función (que normalmente R maneja bien y solo en raras ocasiones genera problemas reales), es considerada una mala práctica en programación en general y no solo en R: se deben favorecer métodos que no tengan potencial ambiguedad (recordar que la Ley de Murphy estará en plena operación mientras ustedes escriban código y a más complicado el código peor será: si puede salir mal, saldrá mal).
 
-Antes de hablar de los diferentes tipos de objetos, es es importante conocer algunos de los tipos de información que acepta R:
+### Tipos de Data
 
--   numeric / double - *Números Reales* con [precisión de 53 bits](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) o unos 16 decimales
--   integer - *Números Enteros*
--   character - *Texto*: pueden ser valores númericos tratados como texto
--   factor - *Categorías*: pueden estar ordenadas
--   logical - *Verdadero/Falso*
+Los valores o datos en R siempre deben tener asignados un tipo o modo.
+
+#### *numeric* / *double*
+
+Son **Números Reales** con [precisión de 53 bits](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) o unos 16 decimales. R asume por defecto que cualquier número será de este tipo.
 
 ``` r
 # Creamos un objeto con un número, automáticamente R asume que será una variable contínua
@@ -90,29 +92,100 @@ is.integer(a)
 
     ## [1] FALSE
 
+#### *integer*
+
+Comprende los **Números Enteros**. Se debe asignar este tipo para que R lo reconozca.
+
 ``` r
 # Podemos crear una nueva variable o reemplazar la variable anterior
 b <- as.integer(a)
 
-class(c(a,b))
+class(b)
 ```
 
-    ## [1] "numeric"
+    ## [1] "integer"
+
+``` r
+a <- as.integer(a)
+
+class(a)
+```
+
+    ## [1] "integer"
+
+``` r
+a
+```
+
+    ## [1] 2
+
+``` r
+# R no redondea si fuerzas el entero sobre decimales
+
+a <- 2.7
+
+a <- as.integer(a)
+
+a
+```
+
+    ## [1] 2
+
+``` r
+class(a)
+```
+
+    ## [1] "integer"
+
+#### *character*
+
+Es simplemente **texto** que puede incluir valores númericos tratados como texto.
 
 ``` r
 # Si no se usan comillas R buscaría un objeto llamado 'texto' y al no encontrarlo daría un error
-c <- "texto"
+c <- "texto incluso con espacios"
 
 c
 ```
 
-    ## [1] "texto"
+    ## [1] "texto incluso con espacios"
 
 ``` r
 class(c)
 ```
 
     ## [1] "character"
+
+#### *factor*
+
+Variables *Categóricas* cardinales u ordinales. Cuando R lee bases de datos, los vectores de caracteres usualmente se almacenan como factores porque es más eficiente con el uso de memoria: cada nombre de categoría es almacenado una vez y luego se usa una vector de números enteros.
+
+``` r
+# Para crear un factor
+
+a <- c("Categoría 1", "Categoría 1", "Categoría 2", "Categoría 1", "Categoría 2", "Categoría 1", "Categoría 1")
+a <- factor(a)
+
+# No solo muestra el contenido del objeto pero también los *niveles* o *categorías* del factor
+a
+```
+
+    ## [1] Categoría 1 Categoría 1 Categoría 2 Categoría 1 Categoría 2 Categoría 1
+    ## [7] Categoría 1
+    ## Levels: Categoría 1 Categoría 2
+
+``` r
+# Para ver un resumen de las frecuencias de las categorías (también funciona con variables lógicas)
+table(a)
+```
+
+    ## a
+    ## Categoría 1 Categoría 2 
+    ##           5           2
+
+#### *logical*
+
+Variables dicotómicas de tipo *Verdadero/Falso*.
 
 Voy a introducir cuatro tipos de objetos que emplearemos con frecuencia. Luego introduciré los diferentes tipos de data que puede manejar R:
 
