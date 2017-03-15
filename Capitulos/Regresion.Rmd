@@ -1,0 +1,33 @@
+---
+title: "Regresion"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(AER)
+
+data("CPS1985", package = "AER")
+
+cps <- CPS1985
+
+```
+
+## Ejemplos de Regresion Lineal
+
+En este docuemnto tenemos ejemplos hechos en clase de regresion lineal.
+
+El primer ejemplo es el ejemplo 2 de la introduccion de Kleiber:
+
+```{r}
+
+reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education,
+                 data = cps)
+
+summary(reg.lineal)
+
+```
+
