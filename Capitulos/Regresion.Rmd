@@ -8,11 +8,13 @@ output: github_document
 
 knitr::opts_chunk$set(echo = TRUE)
 
+# Paquetes que usaremos
 library(AER)
 library(knitr)
 library(tidyverse)
 library(broom)
 library(quantreg)
+library(stargazer)
 
 data("CPS1985", package = "AER")
 
@@ -24,18 +26,39 @@ cps <- CPS1985
 
 En este docuemnto tenemos ejemplos hechos en clase de regresion lineal.
 
-El primer ejemplo es el ejemplo 2 de la introduccion de Kleiber:
+Para mostrar rápidamente la sintaxis básica de regresiones lineales en R usamos el ejemplo 2 de la introduccion de Kleiber:
 
 ```{r}
 
-reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education,
-                 data = cps)
+# Creamos un objeto llamado reg.lineal con toda la data generada por el cálculo
+reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education, data = cps)
 
+# Los resultados en formato normal:
 summary(reg.lineal)
 
-kable(tidy(reg.lineal))
+# Diferentes partes de los resultados utilizando el paquete "broom" incluido en tidyverse
+
+# A nivel de variable (coeficientes, p-values, etc)
+tidy(reg.lineal)
+
+# A nivel de observación (genera estimaciones, residuales, etc.)
+head(augment(reg.lineal))
+
+# A nivel de regresión (R cuadrado, prueba F, Suma de Residuales, etc.)
+glance(reg.lineal)
 
 
+
+
+```
+
+
+```{r }
+
+library(sjPlot)
+
+# Resultados con formato decente
+sjt.lm(reg.lineal)
 ```
 
 Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
