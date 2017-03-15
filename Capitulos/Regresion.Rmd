@@ -9,6 +9,10 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(AER)
+library(knitr)
+library(tidyverse)
+library(broom)
+library(quantreg)
 
 data("CPS1985", package = "AER")
 
@@ -28,6 +32,33 @@ reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education,
                  data = cps)
 
 summary(reg.lineal)
+
+kable(tidy(reg.lineal))
+
+
+```
+
+Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
+
+```{r}
+
+reg.quintil <- rq(log(wage) ~ experience + I(experience^2) + education,
+                 data = cps, tau = seq(0.2,0.8, by = 0.15))
+
+summary(reg.quintil)
+
+# Luego se crea una base para simular el efecto de el salario por quintil. Se mantiene la educación constante y se recorre todos los niveles de experiencia
+
+cps2 <- data.frame(education = mean(cps$education), 
+                   experience = min(cps$experience):max(cps$experience))
+
+cps2 <- cbind(cps2, predict(reg.lineal, newdata = cps2, interval = "prediction"))
+cps2 <- cbind(cps2, predict(reg.quintil, newdata = cps2, type = ""))
+
+plot(log(wage) ~ experience, data = cps)
+
+for(i in 6:10) lines(cps2[,i] ~ experience, data = cps2, col = "red")
+
 
 ```
 
