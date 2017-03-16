@@ -85,132 +85,15 @@ glance(reg.lineal)
 library(sjPlot)
 ```
 
-    ## Warning: package 'sjPlot' was built under R version 3.3.3
+    ## #refugeeswelcome
 
 ``` r
 # Resultados con formato decente
-sjt.lm(reg.lineal)
+sjt.lm(reg.lineal, no.output = TRUE)$knitr
 ```
 
-<table style="border-collapse:collapse; border:none;border-bottom:double;">
-<td style="padding:0.2cm; border-top:double;">
- 
-</td>
-<td style="border-bottom:1px solid; padding-left:0.5em; padding-right:0.5em; border-top:double;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; border-bottom:1px solid; border-top:double;" colspan="3">
-log(wage)
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; font-style:italic;">
- 
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em; font-style:italic;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; font-style:italic; ">
-B
-</td>
-<td style="padding:0.2cm; text-align:center; font-style:italic; ">
-CI
-</td>
-<td style="padding:0.2cm; text-align:center; font-style:italic; ">
-p
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; border-top:1px solid; text-align:left;">
-(Intercept)
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em; border-top:1px solid; ">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; border-top:1px solid; ">
-0.52
-</td>
-<td style="padding:0.2cm; text-align:center; border-top:1px solid; ">
-0.28 – 0.76
-</td>
-<td style="padding:0.2cm; text-align:center; border-top:1px solid; ">
-&lt;.001
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; text-align:left;">
-experience
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-0.03
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-0.02 – 0.05
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-&lt;.001
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; text-align:left;">
-I(experience^2)
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; ">
--0.00
-</td>
-<td style="padding:0.2cm; text-align:center; ">
--0.00 – -0.00
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-&lt;.001
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; text-align:left;">
-education
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-0.09
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-0.07 – 0.11
-</td>
-<td style="padding:0.2cm; text-align:center; ">
-&lt;.001
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;">
-Observations
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em; border-top:1px solid;">
- 
-</td>
-<td style="padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:center; border-top:1px solid;" colspan="3">
-534
-</td>
-</tr>
-<tr>
-<td style="padding:0.2cm; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adj. R<sup>2</sup>
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.238 / .234
-</td>
-</tr>
-</table>
+    ## [1] "<table style=\"border-collapse:collapse; border:none;border-bottom:double;\">\n<td style=\"padding:0.2cm; border-top:double;\">&nbsp;</td>\n<td style=\"border-bottom:1px solid; padding-left:0.5em; padding-right:0.5em; border-top:double;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; border-bottom:1px solid; border-top:double;\" colspan=\"3\">log(wage)</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; font-style:italic;\">&nbsp;</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; font-style:italic;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">B</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">CI</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">p</td> \n</tr>\n<tr>\n<td style=\"padding:0.2cm; border-top:1px solid; text-align:left;\">(Intercept)</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; border-top:1px solid; \">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">0.52</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">0.28&nbsp;&ndash;&nbsp;0.76</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">experience</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.03</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.02&nbsp;&ndash;&nbsp;0.05</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">I(experience^2)</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">&#45;0.00</td>\n<td style=\"padding:0.2cm; text-align:center; \">&#45;0.00&nbsp;&ndash;&nbsp;&#45;0.00</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">education</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.09</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.07&nbsp;&ndash;&nbsp;0.11</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;\">Observations</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; border-top:1px solid;\">&nbsp;</td><td style=\"padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:center; border-top:1px solid;\" colspan=\"3\">534</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;\">R<sup>2</sup> / adj. R<sup>2</sup></td>\n\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td><td style=\"padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;\" colspan=\"3\">.238 / .234</td>\n </tr>\n</table>\n"
+
 Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
 
 ``` r

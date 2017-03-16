@@ -53,14 +53,6 @@ glance(reg.lineal)
 ```
 
 
-```{r }
-
-library(sjPlot)
-
-# Resultados con formato decente
-sjt.lm(reg.lineal)
-```
-
 Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
 
 ```{r}
