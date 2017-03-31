@@ -17,6 +17,9 @@ Hay una versión de http://es.stackoverflow.com/ en español donde pueden pedir 
 # Índice
 
 Semana 1
+
 [Programas](Capitulos/Programas.md)
+
 [Calculadora](Capitulos/Calculadora.md)
+
 [Objetos](Capitulos/Objetos.md)
