@@ -162,8 +162,7 @@ Variables *Categóricas* cardinales u ordinales. Cuando R lee bases de datos, lo
 
 ``` r
 # Para crear un factor
-
-a <- c("Categoría 1", "Categoría 1", "Categoría 2", "Categoría 1", "Categoría 2", "Categoría 1", "Categoría 1")
+a <- c("Categoría 1", "Categoría 1", "Categoría 2", "Categoría 1", "Categoría 2", "Categoría 1")
 a <- factor(a)
 
 # No solo muestra el contenido del objeto pero también los *niveles* o *categorías* del factor
@@ -171,7 +170,6 @@ a
 ```
 
     ## [1] Categoría 1 Categoría 1 Categoría 2 Categoría 1 Categoría 2 Categoría 1
-    ## [7] Categoría 1
     ## Levels: Categoría 1 Categoría 2
 
 ``` r
@@ -181,14 +179,73 @@ table(a)
 
     ## a
     ## Categoría 1 Categoría 2 
-    ##           5           2
+    ##           4           2
+
+``` r
+# Crear un factor ordenado
+
+mes <- factor(c(1, 1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11, 12), ordered = TRUE)
+mes
+```
+
+    ##  [1] 1  1  1  2  2  3  4  5  6  6  7  8  9  10 11 12
+    ## Levels: 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < 11 < 12
+
+``` r
+# Renombrar los niveles del factor. Se debe hacer en orden por lo que se desaconseja hacer por separado. 
+# En la sección de Gestión de Datos veremos como manipular factores más a fondo.
+
+levels(mes) <- c("Enero",
+                 "Febrero",
+                 "Marzo",
+                 "Abril",
+                 "Mayo",
+                 "Junio",
+                 "Julio",
+                 "Agosto",
+                 "Septiembre",
+                 "Octubre",
+                 "Noviembre",
+                 "Diciembre")
+
+table(mes)
+```
+
+    ## mes
+    ##      Enero    Febrero      Marzo      Abril       Mayo      Junio 
+    ##          3          2          1          1          1          2 
+    ##      Julio     Agosto Septiembre    Octubre  Noviembre  Diciembre 
+    ##          1          1          1          1          1          1
 
 #### *logical*
 
 Variables dicotómicas de tipo *Verdadero/Falso*.
 
-Voy a introducir cuatro tipos de objetos que emplearemos con frecuencia. Luego introduciré los diferentes tipos de data que puede manejar R:
+``` r
+# No es necesario usar comillas
+logica <- c(TRUE, TRUE, FALSE, TRUE)
 
-### Vector
+logica
+```
 
-Un vector en R (tipea en la consola ?vector) tiene dos atributos: longitud (número de observaciones/dimensiones) y modo (tipo de información).
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
+### Tipos de Objeto
+
+Vamos a empezar conociendo cuatro tipos de objetos que emplearemos con frecuencia.
+
+#### Vector Atómico
+
+Es un vector compuesto de átomos. Los átomos de un vector *tienen que ser del mismo tipo de data*. Es decir, el vector será numérico, entero, etc.
+
+#### Lista
+
+Es un vector atómico generalizado. Permite que los elementos sean de diferentes tipos.
+
+#### Matriz
+
+Un conjunto de vectores del mismo tamaño. La matriz debe tener el mismo tipo de data dentro. El estándar es: logical &lt; integer &lt; double. Una matriz con algunos valores enteros y otros dobles será una matriz doble.
+
+#### *Data Frame*
+
+Una **lista** (en el sentido de R) de vectores (o listas) del mismo tamaño pero que pueden tener diferentes tipos de data cada uno. Este es uno de los tipos de objeto más útiles en R y la base para la mayor parte de nuestro trabajo.

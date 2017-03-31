@@ -151,7 +151,8 @@ table(a)
 mes <- factor(c(1, 1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11, 12), ordered = TRUE)
 mes
 
-# Renombrar los niveles del factor. Se debe hacer en orden por lo que se desaconseja hacer por separado. En la sección de Gestión de Datos veremos como manipular factores más a fondo.
+# Renombrar los niveles del factor. Se debe hacer en orden por lo que se desaconseja hacer por separado. 
+# En la sección de Gestión de Datos veremos como manipular factores más a fondo.
 
 levels(mes) <- c("Enero",
                  "Febrero",
