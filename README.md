@@ -23,3 +23,5 @@ Semana 1
 [Calculadora](Capitulos/Calculadora.md)
 
 [Objetos](Capitulos/Objetos.md)
+
+[Ejemplos de Regresiones](Capitulos/Regresion.md)
