@@ -14,7 +14,6 @@ library(knitr)
 library(tidyverse)
 library(broom)
 library(quantreg)
-library(stargazer)
 
 data("CPS1985", package = "AER")
 
@@ -24,13 +23,32 @@ cps <- CPS1985
 
 ## Ejemplos de Regresion Lineal
 
-En este docuemnto tenemos ejemplos hechos en clase de regresion lineal.
+La sintaxis de regresiones lineales en R requiere de dos cosas: una función y un objeto con la data.
 
-Para mostrar rápidamente la sintaxis básica de regresiones lineales en R usamos el ejemplo 2 de la introduccion de Kleiber:
+La función se define de la siguiente forma: "variable dependiente ~ variables dependientes" y es factible crear un objeto que contenga tu formula.
 
 ```{r}
 
-# Creamos un objeto llamado reg.lineal con toda la data generada por el cálculo
+ecuacion <- y ~ x1 + x2
+
+class(ecuacion)
+
+```
+
+
+La sintaxis estándar de una regresión lineal (y = b1 + b1 * x) para data contenida en un objeto llamado "foo" es:
+
+objeto_con_resultados <- lm(formula = y ~ x, data = foo)
+
+Este comando generará varios tipos de data que pueden (o no) ser almacenados en un objeto. Como los datos tienen diferentes niveles de observación (hay un estimador de pendiente para cada variable pero un solo R2 para toda la función), las tablas de regresión pueden ser difíciles de presentar. El paquete {broom} que usaremos en breve simplifica mucho este problema.
+
+No es necesario escribir "formula =" o "data =" para el comando "lm". Ni siquiera hay que escribirlas en ese orden, ya que la ecuación siempre será vista como una fórmula por R a menos que esté mal escrita en cuyo caso dará error. A pesar de que no es necesario escribir esto, mientras aprendemos puede ayudar a mantener el orden y entender mejor nuestro código.
+
+Para mostrar rápidamente esta sintaxis usamos el ejemplo 2 de la introduccion de Kleiber:
+
+```{r}
+
+# Creamos un objeto llamado "reg.lineal" con toda la data generada por el cálculo
 reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education, data = cps)
 
 # Los resultados en formato normal:
@@ -47,22 +65,21 @@ head(augment(reg.lineal))
 # A nivel de regresión (R cuadrado, prueba F, Suma de Residuales, etc.)
 glance(reg.lineal)
 
-
-
-
 ```
 
-
-Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
+Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final. Es necesario usar el paquete {quantreg} para regresiones por estratos.
 
 ```{r}
 
 reg.quintil <- rq(log(wage) ~ experience + I(experience^2) + education,
                  data = cps, tau = seq(0.2,0.8, by = 0.15))
 
-summary(reg.quintil)
+reg.quintil
 
-# Luego se crea una base para simular el efecto de el salario por quintil. Se mantiene la educación constante y se recorre todos los niveles de experiencia
+# Luego se crea una base para simular el efecto de el salario por quintil. 
+# En este nuevo objeto (cps2) se mantiene la educación constante (igual al promedio) 
+# y se listan todos los niveles posibles de experiencia para generar un estimado de
+# ingresos para cada nivel de experiencia.
 
 cps2 <- data.frame(education = mean(cps$education), 
                    experience = min(cps$experience):max(cps$experience))
@@ -73,7 +90,6 @@ cps2 <- cbind(cps2, predict(reg.quintil, newdata = cps2, type = ""))
 plot(log(wage) ~ experience, data = cps)
 
 for(i in 6:10) lines(cps2[,i] ~ experience, data = cps2, col = "red")
-
 
 ```
 

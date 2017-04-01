@@ -4,12 +4,30 @@ Regresion
 Ejemplos de Regresion Lineal
 ----------------------------
 
-En este docuemnto tenemos ejemplos hechos en clase de regresion lineal.
+La sintaxis de regresiones lineales en R requiere de dos cosas: una función y un objeto con la data.
 
-Para mostrar rápidamente la sintaxis básica de regresiones lineales en R usamos el ejemplo 2 de la introduccion de Kleiber:
+La función se define de la siguiente forma: "variable dependiente ~ variables dependientes" y es factible crear un objeto que contenga tu formula.
 
 ``` r
-# Creamos un objeto llamado reg.lineal con toda la data generada por el cálculo
+ecuacion <- y ~ x1 + x2
+
+class(ecuacion)
+```
+
+    ## [1] "formula"
+
+La sintaxis estándar de una regresión lineal (y = b1 + b1 \* x) para data contenida en un objeto llamado "foo" es:
+
+objeto\_con\_resultados &lt;- lm(formula = y ~ x, data = foo)
+
+Este comando generará varios tipos de data que pueden (o no) ser almacenados en un objeto. Como los datos tienen diferentes niveles de observación (hay un estimador de pendiente para cada variable pero un solo R2 para toda la función), las tablas de regresión pueden ser difíciles de presentar. El paquete {broom} que usaremos en breve simplifica mucho este problema.
+
+No es necesario escribir "formula =" o "data =" para el comando "lm". Ni siquiera hay que escribirlas en ese orden, ya que la ecuación siempre será vista como una fórmula por R a menos que esté mal escrita en cuyo caso dará error. A pesar de que no es necesario escribir esto, mientras aprendemos puede ayudar a mantener el orden y entender mejor nuestro código.
+
+Para mostrar rápidamente esta sintaxis usamos el ejemplo 2 de la introduccion de Kleiber:
+
+``` r
+# Creamos un objeto llamado "reg.lineal" con toda la data generada por el cálculo
 reg.lineal <- lm(log(wage) ~ experience + I(experience^2) + education, data = cps)
 
 # Los resultados en formato normal:
@@ -81,97 +99,38 @@ glance(reg.lineal)
     ##        AIC      BIC deviance df.residual
     ## 1 696.5564 717.9584 113.0924         530
 
-``` r
-library(sjPlot)
-```
-
-    ## #refugeeswelcome
-
-``` r
-# Resultados con formato decente
-sjt.lm(reg.lineal, no.output = TRUE)$knitr
-```
-
-    ## [1] "<table style=\"border-collapse:collapse; border:none;border-bottom:double;\">\n<td style=\"padding:0.2cm; border-top:double;\">&nbsp;</td>\n<td style=\"border-bottom:1px solid; padding-left:0.5em; padding-right:0.5em; border-top:double;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; border-bottom:1px solid; border-top:double;\" colspan=\"3\">log(wage)</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; font-style:italic;\">&nbsp;</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; font-style:italic;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">B</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">CI</td>\n<td style=\"padding:0.2cm; text-align:center; font-style:italic; \">p</td> \n</tr>\n<tr>\n<td style=\"padding:0.2cm; border-top:1px solid; text-align:left;\">(Intercept)</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; border-top:1px solid; \">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">0.52</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">0.28&nbsp;&ndash;&nbsp;0.76</td>\n<td style=\"padding:0.2cm; text-align:center; border-top:1px solid; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">experience</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.03</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.02&nbsp;&ndash;&nbsp;0.05</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">I(experience^2)</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">&#45;0.00</td>\n<td style=\"padding:0.2cm; text-align:center; \">&#45;0.00&nbsp;&ndash;&nbsp;&#45;0.00</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left;\">education</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.09</td>\n<td style=\"padding:0.2cm; text-align:center; \">0.07&nbsp;&ndash;&nbsp;0.11</td>\n<td style=\"padding:0.2cm; text-align:center; \">&lt;.001</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;\">Observations</td>\n<td style=\"padding-left:0.5em; padding-right:0.5em; border-top:1px solid;\">&nbsp;</td><td style=\"padding:0.2cm; padding-top:0.1cm; padding-bottom:0.1cm; text-align:center; border-top:1px solid;\" colspan=\"3\">534</td>\n</tr>\n<tr>\n<td style=\"padding:0.2cm; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;\">R<sup>2</sup> / adj. R<sup>2</sup></td>\n\n<td style=\"padding-left:0.5em; padding-right:0.5em;\">&nbsp;</td><td style=\"padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;\" colspan=\"3\">.238 / .234</td>\n </tr>\n</table>\n"
-
-Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final.
+Kleiber analiza los datos haciendo una regresion por quintiles y evaluando el efecto del salario inicial sobre las tendencias del salario final. Es necesario usar el paquete {quantreg} para regresiones por estratos.
 
 ``` r
 reg.quintil <- rq(log(wage) ~ experience + I(experience^2) + education,
                  data = cps, tau = seq(0.2,0.8, by = 0.15))
 
-summary(reg.quintil)
+reg.quintil
 ```
 
-    ## Warning in rq.fit.br(x, y, tau = tau, ci = TRUE, ...): Solution may be
-    ## nonunique
-
-    ## Warning in rq.fit.br(x, y, tau = tau, ci = TRUE, ...): Solution may be
-    ## nonunique
-
-    ## 
-    ## Call: rq(formula = log(wage) ~ experience + I(experience^2) + education, 
+    ## Call:
+    ## rq(formula = log(wage) ~ experience + I(experience^2) + education, 
     ##     tau = seq(0.2, 0.8, by = 0.15), data = cps)
     ## 
-    ## tau: [1] 0.2
-    ## 
     ## Coefficients:
-    ##                 coefficients lower bd upper bd
-    ## (Intercept)      0.45093      0.03337  0.65111
-    ## experience       0.03718      0.02616  0.04889
-    ## I(experience^2) -0.00070     -0.00090 -0.00049
-    ## education        0.06600      0.04976  0.09704
+    ##                     tau= 0.20     tau= 0.35     tau= 0.50    tau= 0.65
+    ## (Intercept)      0.4509293695  0.3134682434  0.1938720519  0.429725904
+    ## experience       0.0371833086  0.0475639449  0.0449586672  0.043050616
+    ## I(experience^2) -0.0006970546 -0.0008288489 -0.0007251398 -0.000598682
+    ## education        0.0660013111  0.0853064797  0.1077608566  0.102662617
+    ##                     tau= 0.80
+    ## (Intercept)      0.6129246830
+    ## experience       0.0391506313
+    ## I(experience^2) -0.0005141205
+    ## education        0.1056037756
     ## 
-    ## Call: rq(formula = log(wage) ~ experience + I(experience^2) + education, 
-    ##     tau = seq(0.2, 0.8, by = 0.15), data = cps)
-    ## 
-    ## tau: [1] 0.35
-    ## 
-    ## Coefficients:
-    ##                 coefficients lower bd upper bd
-    ## (Intercept)      0.31347      0.08176  0.44357
-    ## experience       0.04756      0.03610  0.05910
-    ## I(experience^2) -0.00083     -0.00112 -0.00059
-    ## education        0.08531      0.07408  0.10263
-    ## 
-    ## Call: rq(formula = log(wage) ~ experience + I(experience^2) + education, 
-    ##     tau = seq(0.2, 0.8, by = 0.15), data = cps)
-    ## 
-    ## tau: [1] 0.5
-    ## 
-    ## Coefficients:
-    ##                 coefficients lower bd upper bd
-    ## (Intercept)      0.19387     -0.06344  0.53006
-    ## experience       0.04496      0.03266  0.05877
-    ## I(experience^2) -0.00073     -0.00105 -0.00043
-    ## education        0.10776      0.08272  0.12101
-    ## 
-    ## Call: rq(formula = log(wage) ~ experience + I(experience^2) + education, 
-    ##     tau = seq(0.2, 0.8, by = 0.15), data = cps)
-    ## 
-    ## tau: [1] 0.65
-    ## 
-    ## Coefficients:
-    ##                 coefficients lower bd upper bd
-    ## (Intercept)      0.42973      0.20244  0.72517
-    ## experience       0.04305      0.02701  0.05434
-    ## I(experience^2) -0.00060     -0.00092 -0.00026
-    ## education        0.10266      0.08749  0.11923
-    ## 
-    ## Call: rq(formula = log(wage) ~ experience + I(experience^2) + education, 
-    ##     tau = seq(0.2, 0.8, by = 0.15), data = cps)
-    ## 
-    ## tau: [1] 0.8
-    ## 
-    ## Coefficients:
-    ##                 coefficients lower bd upper bd
-    ## (Intercept)      0.61292      0.49682  0.91475
-    ## experience       0.03915      0.02421  0.04723
-    ## I(experience^2) -0.00051     -0.00073 -0.00026
-    ## education        0.10560      0.09150  0.11279
+    ## Degrees of freedom: 534 total; 530 residual
 
 ``` r
-# Luego se crea una base para simular el efecto de el salario por quintil. Se mantiene la educación constante y se recorre todos los niveles de experiencia
+# Luego se crea una base para simular el efecto de el salario por quintil. 
+# En este nuevo objeto (cps2) se mantiene la educación constante (igual al promedio) 
+# y se listan todos los niveles posibles de experiencia para generar un estimado de
+# ingresos para cada nivel de experiencia.
 
 cps2 <- data.frame(education = mean(cps$education), 
                    experience = min(cps$experience):max(cps$experience))
