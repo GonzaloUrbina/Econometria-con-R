@@ -25,3 +25,7 @@ Semana 1
 [Objetos](Capitulos/Objetos.md)
 
 [Ejemplos de Regresiones](Capitulos/Regresion.md)
+
+Semana 2
+
+[Manipulación de Tablas](Capitulos/tidyr.md)
