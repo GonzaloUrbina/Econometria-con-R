@@ -340,7 +340,7 @@ En la tabla de ventas hay dos datos que faltan:
 
 Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presentan una forma poética de hablar de los diferentes tipos de valores faltantes:
 
-"un valor faltante explícito es la presencia de una ausencia; un valor faltante implícito es la ausencia de una presencia"
+*"un valor faltante explícito es la presencia de una ausencia; un valor faltante implícito es la ausencia de una presencia"*
 
 Un valor faltante implícito se puede volver explícito cuando transformamos la data:
 
