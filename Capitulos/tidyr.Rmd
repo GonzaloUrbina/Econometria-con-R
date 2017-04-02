@@ -96,8 +96,8 @@ En la tabla 4b vemos que hay columnas llamadas "1999" y "2000" que quizás quisi
 La sintaxis de este comando es:
 
 gather(data, <br /> 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lista de columnas,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_nueva",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lista de columnas, <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_nueva", <br /> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = "nombre_de_col_con_valores")
 
 No es necesario escribir cada sección de comando en su propia línea, pero es más fácil de leer que escribir todo corrido en una sola línea. Compara: 
@@ -117,8 +117,8 @@ gather(tabla4b,
 
 Este verbo hace lo opuesto que "gather" y lo usas cuando una observación está repartida en varias filas: ver la tabla 2. Una observación en este caso es un país en un año. Para cada observación tenemos dos valores en una fila cada uno: casos y población. La sintaxis de "spread" es la siguiente:
 
-spread(data,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_con_variables",  
+spread(data, <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_con_variables",  <br />  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = "nombre_de_col_con_valores")
 
 Aplicando esta sintaxis a la tabla 2:
@@ -141,8 +141,8 @@ En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados 
 
 La sintaxis básica de "separate" es:
 
-separate(data,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columna_a_separar,  
+separate(data,  <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columna_a_separar,  <br />  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into = c("nombre_col1", "nombre_col2", ...))
 
 Para la tabla 3 podríamos usar esta sintaxis:

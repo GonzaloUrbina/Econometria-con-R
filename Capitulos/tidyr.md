@@ -139,7 +139,7 @@ En la tabla 4b vemos que hay columnas llamadas "1999" y "2000" que quizás quisi
 
 La sintaxis de este comando es:
 
-gather(data, <br />             lista de columnas,             key = "nombre\_de\_col\_nueva",             value = "nombre\_de\_col\_con\_valores")
+gather(data, <br />             lista de columnas, <br />             key = "nombre\_de\_col\_nueva", <br />             value = "nombre\_de\_col\_con\_valores")
 
 No es necesario escribir cada sección de comando en su propia línea, pero es más fácil de leer que escribir todo corrido en una sola línea. Compara:
 
@@ -168,8 +168,7 @@ gather(tabla4b,
 
 Este verbo hace lo opuesto que "gather" y lo usas cuando una observación está repartida en varias filas: ver la tabla 2. Una observación en este caso es un país en un año. Para cada observación tenemos dos valores en una fila cada uno: casos y población. La sintaxis de "spread" es la siguiente:
 
-spread(data,
-              key = "nombre\_de\_col\_con\_variables",
+spread(data, <br />               key = "nombre\_de\_col\_con\_variables", <br />
               value = "nombre\_de\_col\_con\_valores")
 
 Aplicando esta sintaxis a la tabla 2:
@@ -203,8 +202,7 @@ En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados 
 
 La sintaxis básica de "separate" es:
 
-separate(data,
-                columna\_a\_separar,
+separate(data, <br />                 columna\_a\_separar, <br />
                 into = c("nombre\_col1", "nombre\_col2", ...))
 
 Para la tabla 3 podríamos usar esta sintaxis:
