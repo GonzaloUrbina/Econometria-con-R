@@ -190,8 +190,8 @@ spread(tabla2,
 
 Vemos que la columna de la tabla 2 llamada "tipo" tiene dos categorías que ahora son los nombres de dos columnas. Los valores bajo cada columna fueron tomados correlativamente de la columna "cantidad".
 
-Valores
--------
+Valores: *separate*, *unite* & faltantes
+----------------------------------------
 
 Dos verbos principales ("separate" y "unite") nos permiten separar o unir los valores contenidos en celdas de alguna(s) columna. Adicionalmente veremos el tipo de herramientas que podemos usar para administrar data faltante en las tablas.
 
@@ -260,6 +260,40 @@ separate(tabla3,
     ## 5      China  1999 212258 1272915272
     ## 6      China  2000 213766 1280428583
 
+### Unite
+
+La tabla 5 tiene la data de "año" separada en dos componentes que nos puede interesar unir. El comando unite() combina columnas y separa los valores unidos con un guión bajo (\_):
+
+``` r
+unite(tabla5, nueva_col, siglo, año)
+```
+
+    ## # A tibble: 6 × 3
+    ##         país nueva_col              tasa
+    ## *      <chr>     <chr>             <chr>
+    ## 1 Afganistán     19_99      745/19987071
+    ## 2 Afganistán     20_00     2666/20595360
+    ## 3     Brasil     19_99   37737/172006362
+    ## 4     Brasil     20_00   80488/174504898
+    ## 5      China     19_99 212258/1272915272
+    ## 6      China     20_00 213766/1280428583
+
+Para evitar el guión bajo empleamos la opción *sep = ""*:
+
+``` r
+unite(tabla5, nueva_col, siglo, año, sep = "")
+```
+
+    ## # A tibble: 6 × 3
+    ##         país nueva_col              tasa
+    ## *      <chr>     <chr>             <chr>
+    ## 1 Afganistán      1999      745/19987071
+    ## 2 Afganistán      2000     2666/20595360
+    ## 3     Brasil      1999   37737/172006362
+    ## 4     Brasil      2000   80488/174504898
+    ## 5      China      1999 212258/1272915272
+    ## 6      China      2000 213766/1280428583
+
 ### Valores Faltantes
 
 Cuando cambiemos la forma de la data los valores que puedan estar ausentes generarán algunos efectos inesperador.
@@ -306,7 +340,10 @@ En la tabla de ventas hay dos datos que faltan:
 
 Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presentan una forma poética de hablar de los diferentes tipos de valores faltantes:
 
-*"un valor faltante explícito es la presencia de una ausencia;* <br /> *un valor faltante implícito es la ausencia de una presencia"*
+<center>
+<i>"un valor faltante explícito es la presencia de una ausencia; un valor faltante implícito es la ausencia de una presencia"
+</center>
+<i />
 
 Un valor faltante implícito se puede volver explícito cuando transformamos la data:
 
@@ -389,7 +426,7 @@ pagos
     ## 3    <NA>       3   110
     ## 4   Emp 2       1   150
 
-El comando fill() para una columna completa los valores faltantes con el valor no-faltante más reciente.
+El comando fill() aplicado a una columna completa los valores faltantes con el valor no-faltante más reciente.
 
 ``` r
 fill(pagos, empresa)

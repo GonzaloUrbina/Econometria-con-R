@@ -131,7 +131,7 @@ spread(tabla2,
 
 Vemos que la columna de la tabla 2 llamada "tipo" tiene dos categorías que ahora son los nombres de dos columnas. Los valores bajo cada columna fueron tomados correlativamente de la columna "cantidad".
 
-## Valores
+## Valores: *separate*, *unite* & faltantes
 
 Dos verbos principales ("separate" y "unite") nos permiten separar o unir los valores contenidos en celdas de alguna(s) columna. Adicionalmente veremos el tipo de herramientas que podemos usar para administrar data faltante en las tablas.
 
@@ -172,6 +172,20 @@ separate(tabla3,
          )
 ```
 
+### Unite
+
+La tabla 5 tiene la data de "año" separada en dos componentes que nos puede interesar unir. El comando unite() combina columnas y separa los valores unidos con un guión bajo (_):
+
+```{r}
+unite(tabla5, nueva_col, siglo, año)
+```
+
+Para evitar el guión bajo empleamos la opción *sep = ""*:
+
+```{r}
+unite(tabla5, nueva_col, siglo, año, sep = "")
+```
+
 ### Valores Faltantes
 
 Cuando cambiemos la forma de la data los valores que puedan estar ausentes generarán algunos efectos inesperador.
@@ -207,8 +221,8 @@ En la tabla de ventas hay dos datos que faltan:
 
 Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presentan una forma poética de hablar de los diferentes tipos de valores faltantes:
 
-*"un valor faltante explícito es la presencia de una ausencia;* <br />
-*un valor faltante implícito es la ausencia de una presencia"*
+<center><i>"un valor faltante explícito es la presencia de una ausencia; 
+un valor faltante implícito es la ausencia de una presencia"</center><i />
 
 Un valor faltante implícito se puede volver explícito cuando transformamos la data:
 
