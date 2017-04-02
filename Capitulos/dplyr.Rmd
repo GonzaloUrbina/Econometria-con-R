@@ -1,0 +1,107 @@
+---
+title: "Manipulacion de Data: {dplyr}"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(nycflights13)
+library(knitr)
+
+vuelos <- flights
+
+vuelos <- rename(vuelos, 
+                 año = year, 
+                 mes = month,
+                 día = day,
+                 hora_salida = dep_time,
+                 h_programada_salida = sched_dep_time,
+                 demora_salida = dep_delay,
+                 hora_llegada= arr_time,
+                 h_programada_llegada = sched_arr_time,
+                 demora_llegada = arr_delay,
+                 aerolinea = carrier,
+                 vuelo = flight,
+                 numerocola = tailnum,
+                 origen = origin,
+                 destino = dest,
+                 tiempo_vuelo = air_time,
+                 distancia = dest,
+                 hora = hour,
+                 minuto = minute,
+                 fecha_hora = time_hour
+                 )
+
+```
+
+## Gramática Básica
+
+Esta sección sigue de cerca la exposición y ejemplos en el Capítulo 3 de "R for Data Science" de Wickham y Grolemund.
+
+Se presentarán los seis verbos principales disponibles en el paquete {dplyr} para manipular datos:
+
+1. Escoger observaciones (filas) de acuerdo a condiciones: **filter()**
+2. Ordenar filas: **arrange()**
+3. Escoger variables (columnas) por nombre: **select()**
+4. Crear nuevas variables a partir de las existentes: **mutate()**
+5. Resumir muchas observaciones en una línea: **summarise()**
+6. Categorizar observaciones para ejecutar los otros verbos: **group_by()**
+
+Adicionalmente se presentará el uso del conector de funciones de {magrittr} (*pipe operator* en inglés): **%>%**
+
+Todos los verbos de {dplyr} (y en general del {tidyverse}) funcionan de la misma manera:
+
+1. El primer argumento es la data (como *data.frame* o *tibble*).
+2. Los siguientes argumentos describen qué hacer con la data usando los nombres de las columnas.
+3. El resultado es un *data.frame* o *tibble*.
+
+Como el resultado final es del mismo tipo que el insumo (*data.frame* o *tibble*), esto hace que sea fácil encadenar los verbos para definir acciones complejas con la data (para lo cual usaremos el conector de {magrittr}).
+
+La data que usaremos para ilustrar los verbos se encuentra en el paquete {nycflights}. 
+
+### Filtrando con filter()
+
+Luego de indicar la data que debe ser filtrada, los argumentos de la función filter() son expresiones que indican los datos requeridos. Para ello hay que usar los operadores de R:
+
+#### Operadores Relacionales y Lógicos
+
+```{r echo = FALSE}
+relacionales <- tribble(
+    ~ Relación,      ~ Sintaxis,
+    "Mayor",           "x > y",
+    "Menor",           "x < y",
+    "Mayor o Igual",   "x >= y",
+    "Menor o Igual",   "x <= y",
+    "Igual",           "x == y",
+    "Diferente",       "x != y"
+)
+
+logicos <- tribble(
+    ~ Logicos,      ~ Sintaxis,
+    "NO",  "!x",
+    "Y",   "x & y, x && y",
+    "O",   "x | y, x || y",
+    "XOR", "xor(x, y)"
+)
+
+kable(relacionales)
+kable(logicos)
+
+```
+
+Por ejemplo si quisieramos conocer los vuelos que despegaron el 4 de febrero:
+
+```{r}
+# como no se asigna, R imprime el resultado
+filter(vuelos, mes == 2, día == 4) 
+
+# Cuando se asigna, R NO imprime el resultado
+feb4 <- filter(vuelos, mes == 2, día == 4) 
+
+# Para asignar e imprimir se envuelve el comando en paréntesis
+(mar5 <- filter(vuelos, mes == 3, día == 5)) 
+
+```
+
