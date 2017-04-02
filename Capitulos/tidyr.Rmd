@@ -96,11 +96,8 @@ En la tabla 4b vemos que hay columnas llamadas "1999" y "2000" que quizás quisi
 La sintaxis de este comando es:
 
 gather(data,
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lista de columnas,
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_nueva",
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = "nombre_de_col_con_valores")
 
 No es necesario escribir cada sección de comando en su propia línea, pero es más fácil de leer que escribir todo corrido en una sola línea. Compara: 
