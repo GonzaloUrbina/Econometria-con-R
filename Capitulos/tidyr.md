@@ -139,7 +139,7 @@ En la tabla 4b vemos que hay columnas llamadas "1999" y "2000" que quizás quisi
 
 La sintaxis de este comando es:
 
-gather(data,             lista de columnas,             key = "nombre\_de\_col\_nueva",             value = "nombre\_de\_col\_con\_valores")
+gather(data,<enter>             lista de columnas,             key = "nombre\_de\_col\_nueva",             value = "nombre\_de\_col\_con\_valores")
 
 No es necesario escribir cada sección de comando en su propia línea, pero es más fácil de leer que escribir todo corrido en una sola línea. Compara:
 
