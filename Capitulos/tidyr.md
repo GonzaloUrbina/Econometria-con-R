@@ -343,6 +343,8 @@ Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presenta
 <center>
 "un valor faltante explícito es la presencia de una ausencia; un valor faltante implícito es la ausencia de una presencia"
 </center>
+<br />
+
 Un valor faltante implícito se puede volver explícito cuando transformamos la data:
 
 ``` r
