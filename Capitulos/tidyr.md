@@ -168,8 +168,7 @@ gather(tabla4b,
 
 Este verbo hace lo opuesto que "gather" y lo usas cuando una observación está repartida en varias filas: ver la tabla 2. Una observación en este caso es un país en un año. Para cada observación tenemos dos valores en una fila cada uno: casos y población. La sintaxis de "spread" es la siguiente:
 
-spread(data, <br />               key = "nombre\_de\_col\_con\_variables", <br />
-              value = "nombre\_de\_col\_con\_valores")
+spread(data, <br />               key = "nombre\_de\_col\_con\_variables", <br />               value = "nombre\_de\_col\_con\_valores")
 
 Aplicando esta sintaxis a la tabla 2:
 
@@ -198,12 +197,11 @@ Dos verbos principales ("separate" y "unite") nos permiten separar o unir los va
 
 ### Separate
 
-En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados por un "/".
+En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados por un "/". Este forma de almacenamiento de data es muy común, en particular cuando no fueron creadas pensadas en hacer análisis de data. Para separar la información usamos el verbo "separate".
 
 La sintaxis básica de "separate" es:
 
-separate(data, <br />                 columna\_a\_separar, <br />
-                into = c("nombre\_col1", "nombre\_col2", ...))
+separate(data, <br />                 columna\_a\_separar, <br />                 into = c("nombre\_col1", "nombre\_col2", ...))
 
 Para la tabla 3 podríamos usar esta sintaxis:
 
@@ -261,3 +259,146 @@ separate(tabla3,
     ## 4     Brasil  2000  80488  174504898
     ## 5      China  1999 212258 1272915272
     ## 6      China  2000 213766 1280428583
+
+### Valores Faltantes
+
+Cuando cambiemos la forma de la data los valores que puedan estar ausentes generarán algunos efectos inesperador.
+
+``` r
+ventas <- tibble(
+    dia    = c("lunes", "lunes", 
+               "martes", "martes", 
+               "miércoles", 
+               "jueves", "jueves", 
+               "viernes", "viernes"),
+    turno  = c("mañana", "tarde",
+               "mañana", "tarde",
+               "mañana",
+               "mañana", "tarde",
+               "mañana", "tarde"),
+    ventas = c(12, 13,
+               12, 12,
+               14,
+               NA, 12,
+               13, 13)
+)
+
+ventas
+```
+
+    ## # A tibble: 9 × 3
+    ##         dia  turno ventas
+    ##       <chr>  <chr>  <dbl>
+    ## 1     lunes mañana     12
+    ## 2     lunes  tarde     13
+    ## 3    martes mañana     12
+    ## 4    martes  tarde     12
+    ## 5 miércoles mañana     14
+    ## 6    jueves mañana     NA
+    ## 7    jueves  tarde     12
+    ## 8   viernes mañana     13
+    ## 9   viernes  tarde     13
+
+En la tabla de ventas hay dos datos que faltan:
+
+-   las ventas del turno *mañana* del día *jueves* faltan **explícitamente** (hay un "NA" en la tabla que así lo indica)
+-   las ventas del turno *tarde* del *miércoles* faltan **implícitamente** (no aparece en la data)
+
+Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presentan una forma poética de hablar de los diferentes tipos de valores faltantes:
+
+*"un valor faltante explícito es la presencia de una ausencia;* <br /> *un valor faltante implícito es la ausencia de una presencia"*
+
+Un valor faltante implícito se puede volver explícito cuando transformamos la data:
+
+``` r
+ventas_ancho <- spread(ventas,
+       dia,
+       ventas)
+ventas_ancho
+```
+
+    ## # A tibble: 2 × 6
+    ##    turno jueves lunes martes miércoles viernes
+    ## *  <chr>  <dbl> <dbl>  <dbl>     <dbl>   <dbl>
+    ## 1 mañana     NA    12     12        14      13
+    ## 2  tarde     12    13     12        NA      13
+
+Eventualmente tener valores faltantes de forma explícita puede comlicar algunas visualizaciones o cálculos. Podemos usar la opción "na.rm = TRUE" dentro del comando gather para volver faltantes explícitos en implícitos:
+
+``` r
+gather(ventas_ancho,
+       día,
+       ventas,
+       lunes, martes, miércoles, jueves, viernes,
+       na.rm = TRUE)
+```
+
+    ## # A tibble: 8 × 3
+    ##    turno       día ventas
+    ## *  <chr>     <chr>  <dbl>
+    ## 1 mañana     lunes     12
+    ## 2  tarde     lunes     13
+    ## 3 mañana    martes     12
+    ## 4  tarde    martes     12
+    ## 5 mañana miércoles     14
+    ## 6  tarde    jueves     12
+    ## 7 mañana   viernes     13
+    ## 8  tarde   viernes     13
+
+El desorden de los días se debe a qué R los ordena alfabéticamente. Para mantener el orden de una variable categórica como "día" hay que convertirla en un factor ordenado.
+
+Podemos volver faltantes implícitos en explícitos con el comando "complete" en el que se señalan las variables que identifican las observaciones (vemos que aparece el "NA" para *miércoles tarde*):
+
+``` r
+complete(ventas, dia, turno)
+```
+
+    ## # A tibble: 10 × 3
+    ##          dia  turno ventas
+    ##        <chr>  <chr>  <dbl>
+    ## 1     jueves mañana     NA
+    ## 2     jueves  tarde     12
+    ## 3      lunes mañana     12
+    ## 4      lunes  tarde     13
+    ## 5     martes mañana     12
+    ## 6     martes  tarde     12
+    ## 7  miércoles mañana     14
+    ## 8  miércoles  tarde     NA
+    ## 9    viernes mañana     13
+    ## 10   viernes  tarde     13
+
+En algunas bases también pasa que cuando un dato se repite en varias filas sólo se incluyen en la primera y se dejan las otras en blanco (el comando "tribble" permite construir tablas columna por columna):
+
+``` r
+pagos <- tribble(
+    ~ empresa, ~ factura, ~pago,
+    "Emp 1", 1, 100,
+    NA,      2, 120,
+    NA,      3, 110,
+    "Emp 2", 1, 150
+)
+
+pagos
+```
+
+    ## # A tibble: 4 × 3
+    ##   empresa factura  pago
+    ##     <chr>   <dbl> <dbl>
+    ## 1   Emp 1       1   100
+    ## 2    <NA>       2   120
+    ## 3    <NA>       3   110
+    ## 4   Emp 2       1   150
+
+El comando fill() para una columna completa los valores faltantes con el valor no-faltante más reciente.
+
+``` r
+fill(pagos, empresa)
+```
+
+    ## # A tibble: 4 × 3
+    ##   empresa factura  pago
+    ##     <chr>   <dbl> <dbl>
+    ## 1   Emp 1       1   100
+    ## 2   Emp 1       2   120
+    ## 3   Emp 1       3   110
+    ## 4   Emp 2       1   150

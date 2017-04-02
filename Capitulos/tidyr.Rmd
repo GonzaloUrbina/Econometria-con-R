@@ -118,7 +118,7 @@ gather(tabla4b,
 Este verbo hace lo opuesto que "gather" y lo usas cuando una observación está repartida en varias filas: ver la tabla 2. Una observación en este caso es un país en un año. Para cada observación tenemos dos valores en una fila cada uno: casos y población. La sintaxis de "spread" es la siguiente:
 
 spread(data, <br /> 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_con_variables",  <br />  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "nombre_de_col_con_variables",  <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = "nombre_de_col_con_valores")
 
 Aplicando esta sintaxis a la tabla 2:
@@ -137,12 +137,12 @@ Dos verbos principales ("separate" y "unite") nos permiten separar o unir los va
 
 ### Separate
 
-En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados por un "/". 
+En la tabla 3 arriba vemos que la columna "rate" contiene dos valores separados por un "/". Este forma de almacenamiento de data es muy común, en particular cuando no fueron creadas pensadas en hacer análisis de data. Para separar la información usamos el verbo "separate".
 
 La sintaxis básica de "separate" es:
 
-separate(data,  <br /> 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columna_a_separar,  <br />  
+separate(data,  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columna_a_separar,  <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into = c("nombre_col1", "nombre_col2", ...))
 
 Para la tabla 3 podríamos usar esta sintaxis:
@@ -171,3 +171,90 @@ separate(tabla3,
          convert = TRUE
          )
 ```
+
+### Valores Faltantes
+
+Cuando cambiemos la forma de la data los valores que puedan estar ausentes generarán algunos efectos inesperador.
+
+```{r}
+
+ventas <- tibble(
+    dia    = c("lunes", "lunes", 
+               "martes", "martes", 
+               "miércoles", 
+               "jueves", "jueves", 
+               "viernes", "viernes"),
+    turno  = c("mañana", "tarde",
+               "mañana", "tarde",
+               "mañana",
+               "mañana", "tarde",
+               "mañana", "tarde"),
+    ventas = c(12, 13,
+               12, 12,
+               14,
+               NA, 12,
+               13, 13)
+)
+
+ventas
+
+```
+
+En la tabla de ventas hay dos datos que faltan:
+
+* las ventas del turno *mañana* del día *jueves* faltan **explícitamente** (hay un "NA" en la tabla que así lo indica)
+* las ventas del turno *tarde* del *miércoles* faltan **implícitamente** (no aparece en la data)
+
+Wickham y Grolemund (a quienes estamos siguiendo en esta explicación), presentan una forma poética de hablar de los diferentes tipos de valores faltantes:
+
+*"un valor faltante explícito es la presencia de una ausencia;* <br />
+*un valor faltante implícito es la ausencia de una presencia"*
+
+Un valor faltante implícito se puede volver explícito cuando transformamos la data:
+
+```{r}
+ventas_ancho <- spread(ventas,
+       dia,
+       ventas)
+ventas_ancho
+```
+
+Eventualmente tener valores faltantes de forma explícita puede comlicar algunas visualizaciones o cálculos. Podemos usar la opción "na.rm = TRUE" dentro del comando gather para volver faltantes explícitos en implícitos:
+
+```{r}
+gather(ventas_ancho,
+       día,
+       ventas,
+       lunes, martes, miércoles, jueves, viernes,
+       na.rm = TRUE)
+```
+
+El desorden de los días se debe a qué R los ordena alfabéticamente. Para mantener el orden de una variable categórica como "día" hay que convertirla en un factor ordenado.
+
+Podemos volver faltantes implícitos en explícitos con el comando "complete" en el que se señalan las variables que identifican las observaciones (vemos que aparece el "NA" para *miércoles tarde*):
+
+```{r}
+complete(ventas, dia, turno)
+```
+
+En algunas bases también pasa que cuando un dato se repite en varias filas sólo se incluyen en la primera y se dejan las otras en blanco (el comando "tribble" permite construir tablas columna por columna):
+
+```{r}
+pagos <- tribble(
+    ~ empresa, ~ factura, ~pago,
+    "Emp 1", 1, 100,
+    NA,      2, 120,
+    NA,      3, 110,
+    "Emp 2", 1, 150
+)
+
+pagos
+```
+
+El comando fill() aplicado a una columna completa los valores faltantes con el valor no-faltante más reciente.
+
+```{r}
+fill(pagos, empresa)
+```
+
+
